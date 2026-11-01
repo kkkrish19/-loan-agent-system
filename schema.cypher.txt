@@ -1,0 +1,11 @@
+CREATE CONSTRAINT unique_applicant_id IF NOT EXISTS FOR (a:Applicant) REQUIRE a.id IS UNIQUE;
+CREATE CONSTRAINT unique_loan_id IF NOT EXISTS FOR (l:LoanApplication) REQUIRE l.id IS UNIQUE;
+CREATE CONSTRAINT unique_chunk_id IF NOT EXISTS FOR (c:TextChunk) REQUIRE c.id IS UNIQUE;
+
+CREATE VECTOR INDEX loan_policy_chunks IF NOT EXISTS
+FOR (c:TextChunk) ON c.embedding
+OPTIONS {
+  indexProvider: 'vector-2.0',
+  vector.dimensions: 768,
+  vector.similarity_function: 'cosine'
+};
